@@ -2,8 +2,8 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const { open } = require('sqlite');
-
 const sqlite3 = require('sqlite3');
+const bcrypt = require('bcrypt');
 
 const dbPromise = open({
     filename: 'data.db',
@@ -30,6 +30,10 @@ app.get('/', async (req, res) => {
     res.render("Home", { messages })
 });
 
+app.get('/register', async (req, res) => {
+    res.render('register')
+})
+
 app.post('/message', async (req, res) => {
     const db = await dbPromise
     const messageText = req.body.messageText
@@ -37,9 +41,24 @@ app.post('/message', async (req, res) => {
     res.redirect('/')
 });
 
+app.post('/register', async (req, res) => {
+const details = {
+    name,
+    email,
+    password,
+    confirmPassword
+} = req.body;
+
+ console.log(details)
+ 
+const passwordHash = await bcrypt.hash(password, 10)
+console.log(passwordHash)
+res.redirect('/')
+})
+
 const setup = async () => {
-    const db = await dbPromise
-    await db.migrate()
+    const db = await dbPromise;
+    await db.migrate();
     app.listen(PORT, () => {
     console.log(`App Running at port ${PORT}`)
 });
