@@ -24,18 +24,16 @@ const PORT = process.env.PORT || 3025;
 
 app.use(express.static('public'));
 
-const messages = [
-    'hey',
-    'hello'
-]
-
-app.get('/', function(req, res) {
+app.get('/', async (req, res) => {
+    const db = await dbPromise;
+    const messages = await db.all('SELECT * FROM Message;')
     res.render("Home", { messages })
 });
 
-app.post('/message', (req, res) => {
+app.post('/message', async (req, res) => {
+    const db = await dbPromise
     const messageText = req.body.messageText
-    messages.push(messageText)
+   await db.run('INSERT INTO Message (text) VALUES (?);', messageText)
     res.redirect('/')
 });
 
