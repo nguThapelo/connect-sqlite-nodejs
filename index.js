@@ -1,6 +1,14 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const { open } = require('sqlite');
+
+const sqlite3 = require('sqlite3');
+
+const dbPromise = open({
+    filename: 'data.db',
+    driver: sqlite3.Database
+  })
 
 const app = express();
 
@@ -31,6 +39,13 @@ app.post('/message', (req, res) => {
     res.redirect('/')
 });
 
-app.listen(PORT, () => {
+const setup = async () => {
+    const db = await dbPromise
+    await db.migrate()
+    app.listen(PORT, () => {
     console.log(`App Running at port ${PORT}`)
 });
+}
+setup();
+
+
