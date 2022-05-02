@@ -1,0 +1,15 @@
+<h1>Works fine</h1>
+<ul>
+    {{#each messages}}
+    <li>
+      {{this}}  
+    </li>
+
+{{/each}}
+</ul>
+
+<form action="/message" method="post">
+<label for="messageText">Message:</label>
+<input type="text" id="messageText" name="messageText"/>
+<button type="submit">Send</button>
+</form>
