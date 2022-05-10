@@ -6,16 +6,24 @@ users can send in messages through the input element, and their texts will be st
 Tools used
 
 Nodejs
+
 SQL (sqlite3)
+
 Expressjs
+
 Html
+
 CSS
+
 Javascript
 
 
 Modules (npm)
 
 Express
+
 express-handlebars
+
 body-parser
+
 sqlite3
